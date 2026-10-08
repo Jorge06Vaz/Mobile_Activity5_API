@@ -8,14 +8,12 @@ class CharacterViewModel {
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
-    // MVVM: la consulta y sus estados se manejan aquí, fuera de la vista.
+    // consulta y estados se manejan aqui fuera de la vista
     func getCharacters() async {
         guard !isLoading else { return }
 
         isLoading = true
         errorMessage = nil
-
-        // Siempre terminamos la carga, incluso si ocurre un error.
         defer { isLoading = false }
 
         guard let url = URL(string: "https://rickandmortyapi.com/api/character") else {
@@ -27,9 +25,7 @@ class CharacterViewModel {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
             request.timeoutInterval = 20
-
             let (data, response) = try await URLSession.shared.data(for: request)
-
             guard let httpResponse = response as? HTTPURLResponse else {
                 errorMessage = "No se recibió una respuesta válida del servidor."
                 return
@@ -43,7 +39,6 @@ class CharacterViewModel {
             let characterResponse = try JSONDecoder().decode(CharacterResponse.self, from: data)
             arrCharacters = characterResponse.results
         } catch is CancellationError {
-            // Salir de la pantalla puede cancelar la consulta; no es una falla de red.
             return
         } catch let error as URLError {
             switch error.code {

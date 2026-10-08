@@ -40,18 +40,16 @@ struct ContentView: View {
         .tint(.green)
     }
 
-    // Vista pequeña: separamos la lista para que el body sea fácil de leer.
+    // Separamos la lista para que el body sea facil de leer
     private var characterList: some View {
         List {
             Section {
                 ForEach(characterVM.arrCharacters) { character in
                     HStack(spacing: 16) {
                         CharacterImageView(imageURL: character.image)
-
                         VStack(alignment: .leading, spacing: 6) {
                             Text(character.name)
                                 .font(.headline)
-
                             Text(character.species)
                                 .font(.subheadline)
                                 .foregroundStyle(.secondary)
@@ -63,7 +61,7 @@ struct ContentView: View {
             } header: {
                 Text("Personajes")
             } footer: {
-                Text("Primera página · Datos de Rick and Morty API")
+                Text("Primera página Datos de Rick and Morty API")
             }
         }
     }

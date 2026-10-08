@@ -1,6 +1,6 @@
 import SwiftUI
 
-// Responsabilidad única: mostrar la imagen y sus estados de carga y error.
+// Muestra imagen y sus estados de carga y error
 struct CharacterImageView: View {
     let imageURL: String
 
@@ -24,7 +24,6 @@ struct CharacterImageView: View {
         .frame(width: 72, height: 72)
         .background(Color.gray.opacity(0.1))
         .clipShape(RoundedRectangle(cornerRadius: 12))
-        // El nombre ya se lee en la fila; evitamos repetirlo con VoiceOver.
         .accessibilityHidden(true)
     }
 }
