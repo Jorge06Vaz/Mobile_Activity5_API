@@ -8,7 +8,7 @@ class CharacterViewModel {
     private(set) var isLoading = false
     private(set) var errorMessage: String?
 
-    // consulta y estados se manejan aqui fuera de la vista
+    // Consulta y estados se manejan aqui fuera de la vista
     func getCharacters() async {
         guard !isLoading else { return }
 

@@ -10,7 +10,7 @@ struct ContentView: View {
                     ProgressView("Cargando personajes...")
                 } else if let errorMessage = characterVM.errorMessage {
                     VStack(spacing: 16) {
-                        Image(systemName: "wifi.exclamationmark")
+                        Image(systemName: "exclamationmark.triangle")
                             .font(.largeTitle)
                             .foregroundStyle(.secondary)
 
@@ -45,24 +45,32 @@ struct ContentView: View {
         List {
             Section {
                 ForEach(characterVM.arrCharacters) { character in
-                    HStack(spacing: 16) {
-                        CharacterImageView(imageURL: character.image)
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(character.name)
-                                .font(.headline)
-                            Text(character.species)
-                                .font(.subheadline)
-                                .foregroundStyle(.secondary)
+                    NavigationLink {
+                        CharacterDetailView(character: character)
+                    } label: {
+                        HStack(spacing: 16) {
+                            CharacterImageView(imageURL: character.image)
+                            VStack(alignment: .leading, spacing: 6) {
+                                Text(character.name)
+                                    .font(.headline)
+                                Text(character.species)
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
+                        .padding(.vertical, 6)
                     }
-                    .padding(.vertical, 6)
                     .accessibilityElement(children: .combine)
+                    .accessibilityHint("Abre los detalles del personaje")
                 }
             } header: {
                 Text("Personajes")
             } footer: {
                 Text("Primera página Datos de Rick and Morty API")
             }
+        }
+        .refreshable {
+            await characterVM.getCharacters()
         }
     }
 }
